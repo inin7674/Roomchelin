@@ -5,7 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
 @Entity
-public class escaperoom {
+public class Escaperoom {
     @GeneratedValue
     @Id
     private Long id;
@@ -19,7 +19,7 @@ public class escaperoom {
     private double mapy;
 
 
-    public escaperoom() {
+    public Escaperoom() {
     }
 
 

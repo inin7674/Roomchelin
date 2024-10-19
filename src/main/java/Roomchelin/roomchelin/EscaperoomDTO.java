@@ -1,6 +1,6 @@
 package Roomchelin.roomchelin;
 
-public record escaperoomDTO(
+public record EscaperoomDTO(
         int escpae_id,
         String region_main,
         String region_sub,
