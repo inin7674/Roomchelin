@@ -2,21 +2,21 @@ package Roomchelin.roomchelin;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class Escaperoom {
-    @GeneratedValue
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-
-    private String region_main;
-    private String region_sub;
-    private String store_name;
-    private String road_adderss;
-    private String phone_num;
-    private double mapx;
-    private double mapy;
+    private String escape_store; // 매장이름
+    private String region_main; // 지역 예시 : 서울 , 부산
+    private String region_sub; // 행정구역 예시 : 강남구, 서초구
+    private String road_adderss; // 매장 도로명 주소
+    private String telephone; // 매장 전화번호
+    private double mapx; // 매장 위도
+    private double mapy; // 매장 경도
 
 
     public Escaperoom() {
@@ -48,11 +48,11 @@ public class Escaperoom {
     }
 
     public String getStore_name() {
-        return store_name;
+        return escape_store;
     }
 
-    public void setStore_name(String store_name) {
-        this.store_name = store_name;
+    public void setStore_name(String escape_store) {
+        this.escape_store = escape_store;
     }
 
     public String getRoad_adderss() {
@@ -64,11 +64,11 @@ public class Escaperoom {
     }
 
     public String getPhone_num() {
-        return phone_num;
+        return telephone;
     }
 
-    public void setPhone_num(String phone_num) {
-        this.phone_num = phone_num;
+    public void setPhone_num(String telephone) {
+        this.telephone = telephone;
     }
 
     public double getMapx() {

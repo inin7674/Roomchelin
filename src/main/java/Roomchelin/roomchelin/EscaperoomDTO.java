@@ -1,12 +1,12 @@
 package Roomchelin.roomchelin;
 
 public record EscaperoomDTO(
-        int escpae_id,
+        String escape_store,
         String region_main,
         String region_sub,
-        String store_name,
-        String road_adderss,
-        String phone_num,
+        String category,
+        String road_address,
+        String telephone,
         double mapx,
         double mapy
 ) {
