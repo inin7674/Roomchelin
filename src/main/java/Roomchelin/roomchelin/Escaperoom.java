@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Escaperoom {
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
     private String escape_store; // 매장이름
@@ -15,8 +15,8 @@ public class Escaperoom {
     private String region_sub; // 행정구역 예시 : 강남구, 서초구
     private String road_adderss; // 매장 도로명 주소
     private String telephone; // 매장 전화번호
-    private double mapx; // 매장 위도
-    private double mapy; // 매장 경도
+    private Integer mapx; // 매장 위도
+    private Integer mapy; // 매장 경도
 
 
     public Escaperoom() {
@@ -75,7 +75,7 @@ public class Escaperoom {
         return mapx;
     }
 
-    public void setMapx(double mapx) {
+    public void setMapx(Integer mapx) {
         this.mapx = mapx;
     }
 
@@ -83,7 +83,24 @@ public class Escaperoom {
         return mapy;
     }
 
-    public void setMapy(double mapy) {
+    public void setMapy(Integer mapy) {
         this.mapy = mapy;
     }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getEscape_store() {
+        return escape_store;
+    }
+
+    public void setEscape_store(String escape_store) {
+        this.escape_store = escape_store;
+    }
 }
+

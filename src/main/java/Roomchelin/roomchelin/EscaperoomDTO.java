@@ -7,7 +7,7 @@ public record EscaperoomDTO(
         String category,
         String road_address,
         String telephone,
-        double mapx,
-        double mapy
+        Integer mapx,
+        Integer mapy
 ) {
 }
