@@ -63,15 +63,7 @@ public class Escaperoom {
         this.road_adderss = road_adderss;
     }
 
-    public String getPhone_num() {
-        return telephone;
-    }
-
-    public void setPhone_num(String telephone) {
-        this.telephone = telephone;
-    }
-
-    public double getMapx() {
+    public Integer getMapx() {
         return mapx;
     }
 
@@ -79,7 +71,7 @@ public class Escaperoom {
         this.mapx = mapx;
     }
 
-    public double getMapy() {
+    public Integer getMapy() {
         return mapy;
     }
 
