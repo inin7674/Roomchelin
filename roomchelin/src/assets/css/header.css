@@ -1,4 +1,4 @@
-header  {
+header {
     display: flex;
     max-width: 1880px;
     width: 100%;
@@ -7,7 +7,7 @@ header  {
     margin: 0 auto;
     position: relative;
     padding: 0 40px;
-    height: 120px;
+    height: 90px;
     box-sizing: border-box;
     background-color: #fff;
 }
