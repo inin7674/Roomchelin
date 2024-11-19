@@ -20,7 +20,8 @@ const SearchResults = () => {
   const handleSearch = () => {
     const filtered = sampleData.filter((item) =>
       item.name.toLowerCase().includes(query.toLowerCase()) || // name에 포함된 데이터 찾기
-      item.location.toLowerCase().includes(query.toLowerCase()) // location에 포함된 데이터 찾기
+      item.location.toLowerCase().includes(query.toLowerCase()) || // location에 포함된 데이터 찾기
+      item.foodtype.toLowerCase().includes(query.toLowerCase()) // location에 포함된 데이터 찾기
     );
     setFilteredResults(filtered); // 필터링된 결과 상태 업데이트
   };
