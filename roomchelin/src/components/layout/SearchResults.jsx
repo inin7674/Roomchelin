@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Search from "./Search"; // Search 컴포넌트를 임포트
+import Search from "./Search";
+import Category from "./Category";
 
 // 샘플 데이터
 const sampleData = [
-  { id: 1, name: "방탈출 홍대", location: "서울 홍대", url: "https://example.com/hongdae" },
-  { id: 2, name: "방탈출 강남", location: "서울 강남", url: "https://example.com/gangnam" },
-  { id: 3, name: "방탈출 신촌", location: "서울 신촌", url: "https://example.com/sinchon" },
-  { id: 4, name: "방탈출 부산", location: "부산 서면", url: "https://example.com/busan" },
-  { id: 5, name: "방탈출 제주도", location: "제주도 제주시", url: "https://example.com/jeju" },
+  { id: 1, name: "방탈출 홍대", location: "서울 홍대", url: "https://example.com/hongdae", foodtype: '한식' },
+  { id: 2, name: "방탈출 강남", location: "서울 강남", url: "https://example.com/gangnam", foodtype: '일식'  },
+  { id: 3, name: "방탈출 신촌", location: "서울 신촌", url: "https://example.com/sinchon", foodtype: '중식'  },
+  { id: 4, name: "방탈출 부산", location: "부산 서면", url: "https://example.com/busan", foodtype: '양식'  },
+  { id: 5, name: "방탈출 제주도", location: "제주도 제주시", url: "https://example.com/jeju", foodtype: '한식'  },
 ];
 
 const SearchResults = () => {
@@ -27,6 +28,7 @@ const SearchResults = () => {
   return (
     <Container>
       <Search query={query} onChange={setQuery} onSearch={handleSearch} /> {/* Search 컴포넌트에 검색어와 함수 전달 */}
+      <Category/>
       <Results>
         {filteredResults.length > 0 ? (
           filteredResults.map((result) => <ResultCard key={result.id} data={result} />)
@@ -44,6 +46,7 @@ const ResultCard = ({ data }) => (
     <a href={data.url} target="_blank" rel="noopener noreferrer">
       <h3>{data.name}</h3>
       <p>{data.location}</p>
+      <p>{data.foodtype}</p>
     </a>
   </Card>
 );
@@ -59,29 +62,34 @@ const Results = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 40px;
+  margin-top: 10px;
 `;
 
 const Card = styled.div`
-  padding: 15px;
   border: 1px solid #eee;
-  border-radius: 4px;
+  border-radius: 15px;
   background: #f9f9f9;
 
   a {
+    padding: 20px;
     text-decoration: none;
     color: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
   }
 
   h3 {
     margin: 0;
-    font-size: 18px;
+    font-size: 19px;
+    width: 25%;
   }
 
   p {
-    margin: 5px 0 0;
-    font-size: 14px;
+    font-size: 16px;
     color: #555;
+    width: 25%;
   }
 
   &:hover {
@@ -94,6 +102,8 @@ const NoResults = styled.div`
   text-align: center;
   color: #999;
   font-size: 16px;
+  padding: 70px;
+  box-sizing: border-box;
 `;
 
 export default SearchResults;

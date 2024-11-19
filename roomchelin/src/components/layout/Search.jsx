@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import SearchIcon from "../../assets/img/search_icon.png";
+import { IoSearch } from "react-icons/io5";
 
 const Search = ({ query, onChange, onSearch }) => {
     const [isFocus, setIsFocus] = useState(false); // 검색창 포커스 상태
@@ -62,7 +62,7 @@ const Search = ({ query, onChange, onSearch }) => {
                 onFocus={() => setIsFocus(true)} // 포커스 시 드롭다운 표시
                 />
                 <button type="submit">
-                <img src={SearchIcon} alt="search" />
+                    <IoSearch style={{ color: '#7b62d2', fontSize: '30px', cursor: 'pointer' }}/>
                 </button>
             </form>
             
@@ -135,10 +135,6 @@ const SearchBox = styled.div`
         right: 10px;
         width: 40px;
         height: 40px;
-        background-image: url(${SearchIcon});
-        background-position: center;
-        background-size: 30px 30px;
-        background-repeat: no-repeat;
         border-radius: 50%;
         background-color: #fff;
         border: none;
