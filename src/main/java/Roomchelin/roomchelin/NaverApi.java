@@ -1,8 +1,8 @@
 package Roomchelin.roomchelin;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -11,7 +11,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
-
+@Component
 public class NaverApi {
     @Value("${clientId}")
     String clientId;

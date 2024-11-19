@@ -1,19 +1,11 @@
 package Roomchelin.roomchelin;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static javax.management.remote.JMXConnectorFactory.connect;
 
@@ -30,50 +22,55 @@ public class EscaperoomSvc {
         List<Escaperoom> list = escaperoomrepository.findAll();
 
         for (Escaperoom room : list) {
-            String storeName = room.getStore_name();
+            String storeName = room.getEscapestore();
 
             Map<String, Object> result = naverApi.naverapi(storeName);
 
             if (result != null) {
-                room.setRoad_adderss(result.get("roadaddr").toString());
+                room.setRoadaddress(result.get("roadaddr").toString());
                 room.setTelephone(result.get("telephone").toString());
                 room.setMapx((Integer) result.get("mapx"));
                 room.setMapy((Integer) result.get("mapy"));
             }
-
-
-//            EscaperoomDTO dto = new EscaperoomDTO(
-//                    null,
-//                    null,
-//                    null,
-//                    room.getRoad_adderss(),
-//                    room.getTelephone(),
-//                    room.getMapx(),
-//                    room.getMapy()
-//            );
-
             escaperoomrepository.save(room);
         }
 
 
     }
 
-    public EscaperoomDTO save(String param) {
-
-        // 데이터를 DTO에 담기
-        EscaperoomDTO dto = new EscaperoomDTO(
-                null,
-                null,
-                null,
-                category,
-                roadaddr,
-                telephone,
-                mapx,
-                mapy
+    public EscaperoomDTO search(String param) {
+        Escaperoom escaperoom = escaperoomrepository.findByEscapestoreContaining(param);
+        return new EscaperoomDTO(
+                escaperoom.getEscapestore(),
+                escaperoom.getRegionsub()
         );
-
-        return dto;
-
     }
+
+    public List<EscaperoomDTO> findall() {
+        return escaperoomrepository.findAll()
+                .stream()
+                .map(e -> new EscaperoomDTO(
+                        e.getEscapestore(),
+                        e.getRegionmain(),
+                        e.getRegionsub(),
+                        e.getRoadaddress(),
+                        e.getTelephone(),
+                        e.getMapy(),
+                        e.getMapy()
+                )).toList();
+    }
+
+//    public EscaperoomDTO findbyid(Long id) {
+//        Escaperoom escaperoom = escaperoomrepository.findById(id).orElse(null);
+//        return new EscaperoomDTO(
+//                escaperoom.getEscape_store(),
+//                escaperoom.getRegion_main(),
+//                escaperoom.getRegion_sub(),
+//                escaperoom.getRoad_address(),
+//                escaperoom.getTelephone(),
+//                escaperoom.getMapx(),
+//                escaperoom.getMapy()
+//        );
+//    }
 }
 
