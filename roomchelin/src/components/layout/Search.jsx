@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import SearchIcon from "../../assets/img/search_icon.png";
 
-const Search = () => {
-    const [query, setQuery] = useState(""); // 검색어 상태
-    const [isFocus, setIsFocus] = useState(false); // 검색박스 포커스 상태
+const Search = ({ query, onChange, onSearch }) => {
+    const [isFocus, setIsFocus] = useState(false); // 검색창 포커스 상태
     const [suggestions, setSuggestions] = useState([]); // 연관 검색어 상태
 
-    // 샘플 데이터 (연관 검색어)
+  // 샘플 데이터 (연관 검색어)
     const sampleData = [
         "방탈출 홍대",
         "방탈출 강남",
@@ -17,10 +16,10 @@ const Search = () => {
         "방탈출 매장 추천",
     ];
 
-    // 검색어 변경 시 호출
+  // 검색어 변경 시 연관 검색어 필터링
     const handleInputChange = (e) => {
         const input = e.target.value;
-        setQuery(input);
+        onChange(input); // 부모 컴포넌트에 검색어 전달
 
         // 검색어 필터링 (입력 값 포함하는 연관 검색어만 표시)
         const filteredSuggestions = sampleData.filter((item) =>
@@ -31,8 +30,9 @@ const Search = () => {
 
     // 검색창 외부 클릭 감지
     const handleClickOutside = (e) => {
-        const isInsideForm = e.target.closest("form")?.dataset.id;
-        setIsFocus(!!isInsideForm);
+        if (!e.target.closest("form")) {
+        setIsFocus(false); // 외부 클릭 시 드롭다운 닫기
+        }
     };
 
     useEffect(() => {
@@ -42,35 +42,46 @@ const Search = () => {
         };
     }, []);
 
+    // 검색버튼 클릭 또는 엔터키 입력 시 드롭다운 닫기
+    const handleSearchSubmit = (e) => {
+        e.preventDefault(); // 기본 폼 제출 동작 방지
+        onSearch(); // 부모 컴포넌트의 검색 실행 함수 호출
+        setIsFocus(false); // 드롭다운 닫기
+    };
+
     return (
         <SearchBox className="search-container">
-        <form data-id="search-form">
-            <input
-            type="text"
-            name="search"
-            id="search"
-            placeholder="방탈출 매장명 또는 지역 검색"
-            value={query} // 검색어 바인딩
-            onChange={handleInputChange} // 입력값 변경 이벤트
-            />
-            <button type="submit">Search</button>
-        </form>
-        {/* 연관 검색어 드롭다운 */}
-        {isFocus && suggestions.length > 0 && (
-            <Dropdown>
-            {suggestions.map((suggestion, index) => (
-                <DropdownItem
-                key={index}
-                onClick={() => {
-                    setQuery(suggestion); // 선택한 검색어 입력창에 설정
-                    setIsFocus(false); // 드롭다운 닫기
-                }}
-                >
-                {suggestion}
-                </DropdownItem>
-            ))}
-            </Dropdown>
-        )}
+            <form onSubmit={handleSearchSubmit}>
+                <input
+                type="text"
+                name="search"
+                id="search"
+                placeholder="방탈출 매장명 또는 지역 검색"
+                value={query} // 검색어 바인딩
+                onChange={handleInputChange} // 입력값 변경 이벤트
+                onFocus={() => setIsFocus(true)} // 포커스 시 드롭다운 표시
+                />
+                <button type="submit">
+                <img src={SearchIcon} alt="search" />
+                </button>
+            </form>
+            
+            {/* 드롭다운 */}
+            {isFocus && suggestions.length > 0 && (
+                <Dropdown>
+                {suggestions.map((suggestion, index) => (
+                    <DropdownItem
+                    key={index}
+                    onClick={() => {
+                        onChange(suggestion); // 선택한 검색어 입력창에 설정
+                        setIsFocus(false); // 드롭다운 닫기
+                    }}
+                    >
+                    {suggestion}
+                    </DropdownItem>
+                ))}
+                </Dropdown>
+            )}
         </SearchBox>
     );
 };
