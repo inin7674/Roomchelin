@@ -54,7 +54,7 @@ const ResultCard = ({ data }) => (
 // 스타일링
 const Container = styled.div`
   width: 100%;
-  max-width: 780px;
+  max-width: 1200px;
   margin: 0 auto;
 `;
 
@@ -83,13 +83,13 @@ const Card = styled.div`
   h3 {
     margin: 0;
     font-size: 19px;
-    width: 25%;
+    width: 50%;
   }
 
   p {
     font-size: 16px;
     color: #555;
-    width: 25%;
+    width: 15%;
   }
 
   &:hover {

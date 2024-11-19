@@ -12,7 +12,7 @@ const Category = () => {
 }
 
 const CategoryContainer = styled.div`
-    max-width: 780px;
+    max-width: 1200px;
     width: 100%;
     margin: 30px auto 0;
     background-color: #7b62d2;
@@ -27,7 +27,10 @@ const CategoryContainer = styled.div`
     p {
         text-align: center;
         font-size: 19px;
-        width: 25%;
+        width: 15%;
+    }
+    p:first-child {
+        width: 50%;
     }
 `
 
