@@ -1,6 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 const GlobalStyles = createGlobalStyle`
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 
 ${reset}
 
@@ -60,7 +61,7 @@ ${reset}
     /* 기본 폰트 설정 */
     body, html {
         line-height: 1.5;
-        font-family: "Poppins", "Malgun Gothic", "맑은 고딕", sans-serif;
+        font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
         font-weight: 400;
         color: #333;
     }
