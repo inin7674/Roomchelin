@@ -1,38 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 import Search from "./Search";
 import Category from "./Category";
 
-// 샘플 데이터
-const sampleData = [
-  { id: 1, name: "방탈출 홍대", location: "서울 홍대", url: "https://example.com/hongdae", foodtype: '한식' },
-  { id: 2, name: "방탈출 강남", location: "서울 강남", url: "https://example.com/gangnam", foodtype: '일식'  },
-  { id: 3, name: "방탈출 신촌", location: "서울 신촌", url: "https://example.com/sinchon", foodtype: '중식'  },
-  { id: 4, name: "방탈출 부산", location: "부산 서면", url: "https://example.com/busan", foodtype: '양식'  },
-  { id: 5, name: "방탈출 제주도", location: "제주도 제주시", url: "https://example.com/jeju", foodtype: '한식'  },
-];
-
-const SearchResults = () => {
+const SearchResults = ({ data = [] }) => {
   const [query, setQuery] = useState(""); // 검색어 상태
-  const [filteredResults, setFilteredResults] = useState(sampleData); // 필터링된 결과 상태
+  const [filteredResults, setFilteredResults] = useState(data); // 필터링된 결과
 
   // 검색어 변경 시 필터링 처리
   const handleSearch = () => {
-    const filtered = sampleData.filter((item) =>
-      item.name.toLowerCase().includes(query.toLowerCase()) || // name에 포함된 데이터 찾기
-      item.location.toLowerCase().includes(query.toLowerCase()) || // location에 포함된 데이터 찾기
-      item.foodtype.toLowerCase().includes(query.toLowerCase()) // location에 포함된 데이터 찾기
+    console.log("Query:", query); // query 값 확인
+
+    const filtered = data.filter((item) =>
+      (item.escape_store && item.escape_store.includes(query)) ||
+      (item.region_sub && item.region_sub.includes(query)) ||
+      (item.telephone && item.telephone.includes(query))
     );
-    setFilteredResults(filtered); // 필터링된 결과 상태 업데이트
+    setFilteredResults(filtered); // 필터링된 결과 업데이트
   };
+
+  // 검색어 변경 시 자동으로 필터링
+  useEffect(() => {
+    handleSearch();
+  }, [query, data]); // query와 data가 변경될 때마다 handleSearch 실행
 
   return (
     <Container>
-      <Search query={query} onChange={setQuery} onSearch={handleSearch} /> {/* Search 컴포넌트에 검색어와 함수 전달 */}
-      <Category/>
+      <Search query={query} onChange={setQuery} onSearch={handleSearch} />
       <Results>
         {filteredResults.length > 0 ? (
-          filteredResults.map((result) => <ResultCard key={result.id} data={result} />)
+          filteredResults.map((result, index) => (
+            <ResultCard key={index} data={result} />
+          ))
         ) : (
           <NoResults>검색 결과가 없습니다.</NoResults>
         )}
@@ -42,34 +41,35 @@ const SearchResults = () => {
 };
 
 // 검색 결과 카드 컴포넌트
-const ResultCard = ({ data }) => (
-  <Card>
-    <a href={data.url} target="_blank" rel="noopener noreferrer">
-      <h3>{data.name}</h3>
-      <p>{data.location}</p>
-      <p>{data.foodtype}</p>
-    </a>
-  </Card>
-);
+const ResultCard = ({ data }) => {
+  return (
+    <Card>
+      <a href="#" target="_blank" rel="noopener noreferrer">
+        {/* 객체의 각 속성을 개별적으로 렌더링 */}
+        <h3>{data.escape_store}</h3>
+        <p>{data.region_sub}</p>
+        <p>{data.telephone || '전화번호 없음'}</p> {/* 전화번호가 없을 때 기본값 */}
+        <p>{data.road_address || '주소 없음'}</p> {/* 주소가 없을 때 기본값 */}
+      </a>
+    </Card>
+  );
+};
 
 // 스타일링
 const Container = styled.div`
   width: 100%;
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 0 auto;
 `;
 
 const Results = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-top: 10px;
 `;
 
 const Card = styled.div`
-  border: 1px solid #eee;
-  border-radius: 15px;
-  background: #f9f9f9;
+  border-bottom: 1px solid rgba(123, 98, 210, 0.2);
+  background: #fff;
 
   a {
     padding: 20px;
@@ -84,7 +84,11 @@ const Card = styled.div`
   h3 {
     margin: 0;
     font-size: 19px;
-    width: 50%;
+    width: 70%;
+    padding-left: 10%;
+    box-sizing: border-box;
+    text-align: left;
+    color: #333;
   }
 
   p {
@@ -94,7 +98,7 @@ const Card = styled.div`
   }
 
   &:hover {
-    background: #f1f1f1;
+    background: #fbfbfb;
     cursor: pointer;
   }
 `;

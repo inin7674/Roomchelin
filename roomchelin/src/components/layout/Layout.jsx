@@ -1,7 +1,5 @@
 import React from "react";
 import Header from "./header/Header";
-import Search from "./Search";
-import SearchResults from "./SearchResults";
 import styled from "styled-components";
 
 const Layout = ({ title, pagename, children }) => {
@@ -10,7 +8,7 @@ const Layout = ({ title, pagename, children }) => {
         <Wrap>
             <Header />
             <main id="main">
-                <SearchResults/>
+                {/* <SearchResults/> */}
             </main>
         </Wrap>
     );
