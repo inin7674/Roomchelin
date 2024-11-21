@@ -42,6 +42,7 @@ public class EscaperoomSvc {
         Escaperoom escaperoom = escaperoomrepository.findByEscapestoreContaining(param);
         return new EscaperoomDTO(
                 escaperoom.getEscapestore(),
+                escaperoom.getRegionmain(),
                 escaperoom.getRegionsub()
         );
     }
