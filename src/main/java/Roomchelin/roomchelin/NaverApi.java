@@ -48,11 +48,20 @@ public class NaverApi {
 
         // "items" 배열에서 필요한 값들을 파싱
         Map<String, Object> responseMap = new HashMap<>();
-        String category = jsonResponse.getJSONArray("items").getJSONObject(0).getString("category");
-        String roadaddr = jsonResponse.getJSONArray("items").getJSONObject(0).getString("roadAddress");
-        String telephone = jsonResponse.getJSONArray("items").getJSONObject(0).optString("telephone", null);
-        Integer mapx = jsonResponse.getJSONArray("items").getJSONObject(0).getInt("mapx");
-        Integer mapy = jsonResponse.getJSONArray("items").getJSONObject(0).getInt("mapy");
+        JSONObject firstItem = jsonResponse.getJSONArray("items").getJSONObject(0);
+
+        responseMap.put("title", firstItem.optString("title", ""));
+        responseMap.put("category", firstItem.optString("category", ""));
+        responseMap.put("roadAddress", firstItem.optString("roadAddress", ""));
+        responseMap.put("telephone", firstItem.optString("telephone", ""));
+        responseMap.put("mapx", firstItem.optInt("mapx", 0));
+        responseMap.put("mapy", firstItem.optInt("mapy", 0));
+//        String title = jsonResponse.getJSONArray("items").getJSONObject(0).getString("title");
+//        String category = jsonResponse.getJSONArray("items").getJSONObject(0).getString("category");
+//        String roadaddr = jsonResponse.getJSONArray("items").getJSONObject(0).getString("roadAddress");
+//        String telephone = jsonResponse.getJSONArray("items").getJSONObject(0).optString("telephone", null);
+//        Integer mapx = jsonResponse.getJSONArray("items").getJSONObject(0).getInt("mapx");
+//        Integer mapy = jsonResponse.getJSONArray("items").getJSONObject(0).getInt("mapy");
 
 
         return responseMap;

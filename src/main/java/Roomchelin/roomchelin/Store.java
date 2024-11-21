@@ -14,8 +14,8 @@ public class Store {
     private String category;
     private String road_address;
     private String phone_num;
-    private double mapx;
-    private double mapy;
+    private Integer mapx;
+    private Integer mapy;
     private String place_link;
 
     public Store() {
@@ -61,27 +61,27 @@ public class Store {
         this.phone_num = phone_num;
     }
 
-    public double getMapx() {
+    public Integer getMapx() {
         return mapx;
     }
 
-    public void setMapx(double mapx) {
+    public void setMapx(Integer mapx) {
         this.mapx = mapx;
     }
 
-    public double getMapy() {
+    public Integer getMapy() {
         return mapy;
     }
 
-    public void setMapy(double mapy) {
+    public void setMapy(Integer mapy) {
         this.mapy = mapy;
     }
 
-    public String getPlace_link() {
-        return place_link;
-    }
-
-    public void setPlace_link(String place_link) {
-        this.place_link = place_link;
-    }
+//    public String getPlace_link() {
+//        return place_link;
+//    }
+//
+//    public void setPlace_link(String place_link) {
+//        this.place_link = place_link;
+//    }
 }
