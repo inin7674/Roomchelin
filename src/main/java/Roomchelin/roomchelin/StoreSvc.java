@@ -14,18 +14,30 @@ public class StoreSvc {
     @Autowired
     private StoreRepository storeRepository;
 
-    public StoreDTO test(String storename) {
+    public Store save(String storename) {
         Map<String, Object> storeapi = naverApi.naverapi(storename);
         System.out.println(storeapi);
 
         // API 응답에서 필요한 데이터 추출
-        String name = (String) storeapi.get("title");
+        String name = ((String) storeapi.get("title")).replaceAll("<[^>]*>","");
         String category = (String) storeapi.get("category");
         String address = (String) storeapi.get("roadAddress");
         String telephone = (String) storeapi.get("telephone");
+        Integer mapx = (Integer) storeapi.get("mapx");
+        Integer mapy = (Integer) storeapi.get("mapy");
+
 
         // StoreDTO 객체 생성 및 반환
-        return new StoreDTO(name, category, address, telephone);
+        Store store = new Store();
+        store.setStore_name(name);
+        store.setCategory(category);
+        store.setRoad_address(address);
+        store.setPhone_num(telephone);
+        store.setMapx(mapx);
+        store.setMapy(mapy);
+
+
+        return storeRepository.save(store);
     }
 
 

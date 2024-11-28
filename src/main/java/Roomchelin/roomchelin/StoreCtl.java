@@ -11,9 +11,8 @@ public class StoreCtl {
     @Autowired
     private StoreSvc storeSvc;
 
-    @GetMapping("/test/{storename}")
-    public StoreDTO test(@PathVariable String storename) {
-        return storeSvc.test(storename);
-
+    @GetMapping("/save/{storename}")
+    public Store save(@PathVariable String storename) {
+        return storeSvc.save(storename);
     }
 }
