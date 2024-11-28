@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {useMediaQuery} from 'react-responsive';
 import './App.css';
 import Layout from './components/layout/Layout';
 import SearchResults from './components/layout/SearchResults';
