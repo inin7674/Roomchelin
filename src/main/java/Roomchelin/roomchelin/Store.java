@@ -1,16 +1,14 @@
 package Roomchelin.roomchelin;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Store {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Id
     private int id;
-    private String store_name;
+    @Column(name = "store_name")
+    private String storeName;
     private String category;
     private String road_address;
     private String phone_num;
@@ -29,12 +27,12 @@ public class Store {
         this.id = id;
     }
 
-    public String getStore_name() {
-        return store_name;
+    public String getstoreName() {
+        return storeName;
     }
 
-    public void setStore_name(String store_name) {
-        this.store_name = store_name;
+    public void setstoreName(String storeName) {
+        this.storeName = storeName;
     }
 
     public String getCategory() {
