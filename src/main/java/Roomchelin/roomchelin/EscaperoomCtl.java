@@ -24,12 +24,12 @@ public class EscaperoomCtl {
         escaperoomSvc.escapeupdate();
     }
 
-    @GetMapping("/search/{param}")
+    @GetMapping("/roomsearch/{param}")
     public EscaperoomDTO search(@PathVariable String param) {
         return escaperoomSvc.search(param);
     }
 
-    @GetMapping("/findall")
+    @GetMapping("/roomfindall")
     public List<EscaperoomDTO> findall() {
         return escaperoomSvc.findall();
     }
