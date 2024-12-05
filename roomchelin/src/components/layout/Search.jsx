@@ -144,6 +144,10 @@ const SearchBox = styled.div`
         align-items: center;
         border-radius: 50px;
         border: 2px solid #7b62d2;
+        @media (max-width: 820px) {
+            width: 86.6666vw;
+            margin: 0 auto;
+        }
     }
 
     input {
@@ -198,6 +202,9 @@ const Dropdown = styled.ul`
     padding: 10px 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     z-index: 10;
+    @media (max-width: 820px) {
+        width: 86.6666vw;
+    }
 `;
 
 const DropdownItem = styled.li`

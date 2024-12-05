@@ -60,6 +60,10 @@ const Container = styled.div`
   width: 100%;
   max-width: 1000px;
   margin: 0 auto;
+  @media (max-width: 820px) {
+    width: 86.6666vw;
+    margin: 0 auto;
+  }
 `;
 
 const Results = styled.div`
