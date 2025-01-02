@@ -3,90 +3,131 @@ import styled from "styled-components";
 import { IoSearch } from "react-icons/io5";
 
 const Search = ({ query, onChange, onSearch }) => {
-    const [isFocus, setIsFocus] = useState(false); // 검색창 포커스 상태
-    const [suggestions, setSuggestions] = useState([]); // 연관 검색어 상태
+    const [isFocus, setIsFocus] = useState(false);
+    const [suggestions, setSuggestions] = useState([]);
+    const [filteredSuggestions, setFilteredSuggestions] = useState([]);
+    const [isResultsVisible, setIsResultsVisible] = useState(false);  // 결과 표시 여부 상태
 
-  // 샘플 데이터 (연관 검색어)
-    const sampleData = [
-        "방탈출 홍대",
-        "방탈출 강남",
-        "방탈출 신촌",
-        "방탈출 부산",
-        "방탈출 제주도",
-        "방탈출 매장 추천",
-    ];
-
-  // 검색어 변경 시 연관 검색어 필터링
-    const handleInputChange = (e) => {
-        const input = e.target.value;
-        onChange(input); // 부모 컴포넌트에 검색어 전달
-
-        // 검색어 필터링 (입력 값 포함하는 연관 검색어만 표시)
-        const filteredSuggestions = sampleData.filter((item) =>
-        item.toLowerCase().includes(input.toLowerCase())
-        );
-        setSuggestions(filteredSuggestions);
-    };
-
-    // 검색창 외부 클릭 감지
-    const handleClickOutside = (e) => {
-        if (!e.target.closest("form")) {
-        setIsFocus(false); // 외부 클릭 시 드롭다운 닫기
+    const fetchSuggestions = async () => {
+        try {
+            const response = await fetch(`http://13.124.237.2:8080/findall`);
+            if (!response.ok) {
+                throw new Error("Failed to fetch suggestions");
+            }
+            const data = await response.json();
+            if (Array.isArray(data)) {
+                setSuggestions(data);
+            } else if (data && data.suggestions) {
+                setSuggestions(data.suggestions);
+            }
+        } catch (error) {
+            console.error("Error fetching suggestions:", error);
+            setSuggestions([]);
         }
     };
 
+    const filterSuggestions = (input) => {
+        const filtered = suggestions.filter((suggestion) =>
+            suggestion.escape_store.toLowerCase().includes(input.toLowerCase())
+        );
+        setFilteredSuggestions(filtered);
+    };
+
+    const handleInputChange = (e) => {
+        const input = e.target.value;
+        onChange(input);
+
+        // 검색어가 입력될 때마다 필터링 적용
+        filterSuggestions(input);
+    };
+
+    const handleClickOutside = (e) => {
+        if (!e.target.closest("form")) {
+            setIsFocus(false);
+        }
+    };
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        // 검색 버튼 클릭 시에만 결과를 표시
+        setIsResultsVisible(true);
+        if (onSearch) {
+            onSearch();
+        }
+        setIsFocus(false);
+    };
+
     useEffect(() => {
+        // 컴포넌트가 처음 렌더링될 때 데이터 가져오기
+        fetchSuggestions();
+
+        // 외부 클릭 감지
         window.addEventListener("click", handleClickOutside);
         return () => {
-        window.removeEventListener("click", handleClickOutside);
+            window.removeEventListener("click", handleClickOutside);
         };
     }, []);
 
-    // 검색버튼 클릭 또는 엔터키 입력 시 드롭다운 닫기
-    const handleSearchSubmit = (e) => {
-        e.preventDefault(); // 기본 폼 제출 동작 방지
-        onSearch(); // 부모 컴포넌트의 검색 실행 함수 호출
-        setIsFocus(false); // 드롭다운 닫기
-    };
+    // 검색어가 비어있을 때 드롭다운을 표시하지 않도록 조건 추가
+    const shouldShowDropdown = query.trim() !== "" && (isFocus || !isResultsVisible);
 
     return (
         <SearchBox className="search-container">
             <form onSubmit={handleSearchSubmit}>
                 <input
-                type="text"
-                name="search"
-                id="search"
-                placeholder="방탈출 매장명 또는 지역 검색"
-                value={query} // 검색어 바인딩
-                onChange={handleInputChange} // 입력값 변경 이벤트
-                onFocus={() => setIsFocus(true)} // 포커스 시 드롭다운 표시
+                    type="text"
+                    name="search"
+                    id="search"
+                    placeholder="방탈출 매장명 또는 지역 검색"
+                    value={query}
+                    onChange={handleInputChange}
+                    onFocus={() => setIsFocus(true)}
                 />
                 <button type="submit">
-                    <IoSearch style={{ color: '#7b62d2', fontSize: '30px', cursor: 'pointer' }}/>
+                    <IoSearch style={{ color: "#7b62d2", fontSize: "30px", cursor: "pointer" }} />
                 </button>
             </form>
-            
-            {/* 드롭다운 */}
-            {isFocus && suggestions.length > 0 && (
+
+            {/* 검색어가 입력되고, 필터링된 결과를 실시간으로 보여주는 드롭다운 */}
+            {shouldShowDropdown && suggestions.length > 0 && !isResultsVisible && (
                 <Dropdown>
-                {suggestions.map((suggestion, index) => (
-                    <DropdownItem
-                    key={index}
-                    onClick={() => {
-                        onChange(suggestion); // 선택한 검색어 입력창에 설정
-                        setIsFocus(false); // 드롭다운 닫기
-                    }}
-                    >
-                    {suggestion}
-                    </DropdownItem>
-                ))}
+                    {filteredSuggestions.length > 0
+                        ? filteredSuggestions.map((suggestion, index) => (
+                            <DropdownItem
+                                key={index}
+                                onClick={() => {
+                                    onChange(suggestion.escape_store);
+                                    setIsFocus(false);
+                                }}
+                            >
+                                {suggestion.escape_store}
+                            </DropdownItem>
+                        ))
+                        : <DropdownItem>결과 없음</DropdownItem>
+                    }
+                </Dropdown>
+            )}
+
+            {/* 검색 버튼 클릭 시 필터링된 결과만 드롭다운에 표시 */}
+            {isResultsVisible && filteredSuggestions.length > 0 && (
+                <Dropdown>
+                    {filteredSuggestions.map((suggestion, index) => (
+                        <DropdownItem
+                            key={index}
+                            onClick={() => {
+                                onChange(suggestion.escape_store);
+                                setIsResultsVisible(false);
+                            }}
+                        >
+                            {suggestion.escape_store}
+                        </DropdownItem>
+                    ))}
                 </Dropdown>
             )}
         </SearchBox>
     );
 };
 
-// 스타일
 const SearchBox = styled.div`
     display: flex;
     justify-content: center;
@@ -103,6 +144,10 @@ const SearchBox = styled.div`
         align-items: center;
         border-radius: 50px;
         border: 2px solid #7b62d2;
+        @media (max-width: 820px) {
+            width: 86.6666vw;
+            margin: 0 auto;
+        }
     }
 
     input {
@@ -144,7 +189,6 @@ const SearchBox = styled.div`
     }
 `;
 
-// 드롭다운 스타일
 const Dropdown = styled.ul`
     position: absolute;
     top: 60px;
@@ -158,6 +202,9 @@ const Dropdown = styled.ul`
     padding: 10px 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     z-index: 10;
+    @media (max-width: 820px) {
+        width: 86.6666vw;
+    }
 `;
 
 const DropdownItem = styled.li`
