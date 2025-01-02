@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Search from "./Search";
 import Category from "./Category";
@@ -11,10 +11,11 @@ const SearchResults = ({ data = [] }) => {
   const handleSearch = () => {
     console.log("Query:", query); // query 값 확인
 
-    const filtered = data.filter((item) =>
-      (item.escape_store && item.escape_store.includes(query)) ||
-      (item.region_sub && item.region_sub.includes(query)) ||
-      (item.telephone && item.telephone.includes(query))
+    const filtered = data.filter(
+      (item) =>
+        (item.escape_store && item.escape_store.includes(query)) ||
+        (item.region_sub && item.region_sub.includes(query)) ||
+        (item.telephone && item.telephone.includes(query))
     );
     setFilteredResults(filtered); // 필터링된 결과 업데이트
   };
@@ -48,8 +49,7 @@ const ResultCard = ({ data }) => {
         {/* 객체의 각 속성을 개별적으로 렌더링 */}
         <h3>{data.escape_store}</h3>
         <p>{data.region_sub}</p>
-        <p>{data.telephone || '전화번호 없음'}</p> {/* 전화번호가 없을 때 기본값 */}
-        <p>{data.road_address || '주소 없음'}</p> {/* 주소가 없을 때 기본값 */}
+        <p>{data.road_address || "주소 없음"}</p> {/* 주소가 없을 때 기본값 */}
       </a>
     </Card>
   );
@@ -88,8 +88,8 @@ const Card = styled.div`
   h3 {
     margin: 0;
     font-size: 19px;
-    width: 70%;
-    padding-left: 10%;
+    width: 40%;
+    padding-left: 5%;
     box-sizing: border-box;
     text-align: left;
     color: #333;
@@ -98,7 +98,7 @@ const Card = styled.div`
   p {
     font-size: 16px;
     color: #555;
-    width: 15%;
+    width: 20%;
   }
 
   &:hover {

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import {useMediaQuery} from 'react-responsive';
-import './App.css';
-import Layout from './components/layout/Layout';
-import SearchResults from './components/layout/SearchResults';
+import React, { useState, useEffect } from "react";
+import { useMediaQuery } from "react-responsive";
+import "./App.css";
+import Layout from "./components/layout/Layout";
+import SearchResults from "./components/layout/SearchResults";
 
 function App() {
   const [data, setData] = useState([]);
@@ -11,7 +11,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://13.124.237.2:8080/findall");
+        const response = await fetch("http://15.164.160.128:8080/roomfindall");
 
         // 응답이 성공적인지 확인
         if (!response.ok) {
